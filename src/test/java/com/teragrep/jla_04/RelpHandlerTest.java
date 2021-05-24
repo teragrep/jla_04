@@ -9,7 +9,7 @@ import org.junit.jupiter.api.*;
 public class RelpHandlerTest {
     static final Logger logger = Logger.getLogger(RelpHandler.class.getName());
 
-    @Test
+    //@Test
     @DisplayName("Tests normal usage")
     public void testUsage() {
         Assertions.assertAll(() -> {
@@ -40,7 +40,7 @@ public class RelpHandlerTest {
         });
     }
 
-    @Test
+    //@Test
     @DisplayName("Tests Structured Data usage")
     public void testSD() {
         Assertions.assertAll(() -> {
