@@ -35,7 +35,7 @@ import java.util.logging.LogRecord;
 
 public class RelpHandler extends Handler {
     private RelpConnection relpConnection;
-    private final RelpBatch batch = new RelpBatch();
+    private RelpBatch batch;
     private RelpConfig config;
 
     // No arguments defaults to 'default' logger
@@ -92,6 +92,11 @@ public class RelpHandler extends Handler {
                     .withSDElement(origin_48577);
         }
 
+        // Initialize the batch for every set of messages
+        if(this.batch == null) {
+            this.batch = new RelpBatch();
+        }
+
         // Add to batch and send
         this.batch.insert(syslog.toRfc5424SyslogMessage().getBytes(StandardCharsets.UTF_8));
         flush();
@@ -120,6 +125,8 @@ public class RelpHandler extends Handler {
                 allSent = true;
             }
         }
+        // Clean the batch
+        this.batch = null;
     }
 
     private void reconnect() throws IOException, TimeoutException {
@@ -153,8 +160,6 @@ public class RelpHandler extends Handler {
 
     @Override
     public synchronized void close() {
-        // Flush the batches before disconnecting
-        flush();
         try {
             disconnect();
         } catch (IOException  | TimeoutException e) {
