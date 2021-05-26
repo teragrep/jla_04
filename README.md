@@ -3,14 +3,14 @@
 
 ## Supported properties
 
-- java.util.logging.LOGGERNAME.appname
-- java.util.logging.LOGGERNAME.server.address
-- java.util.logging.LOGGERNAME.server.connectionTimeout
-- java.util.logging.LOGGERNAME.server.port
-- java.util.logging.LOGGERNAME.server.readTimeout
-- java.util.logging.LOGGERNAME.server.reconnectInterval
-- java.util.logging.LOGGERNAME.server.writeTimeout
-- java.util.logging.LOGGERNAME.useStructuredData
+- java.util.logging.RelpHandler.LOGGERNAME.appname
+- java.util.logging.RelpHandler.LOGGERNAME.server.address
+- java.util.logging.RelpHandler.LOGGERNAME.server.connectionTimeout
+- java.util.logging.RelpHandler.LOGGERNAME.server.port
+- java.util.logging.RelpHandler.LOGGERNAME.server.readTimeout
+- java.util.logging.RelpHandler.LOGGERNAME.server.reconnectInterval
+- java.util.logging.RelpHandler.LOGGERNAME.server.writeTimeout
+- java.util.logging.RelpHandler.LOGGERNAME.useStructuredData
 
 ## Usage
 
