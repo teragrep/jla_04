@@ -37,6 +37,7 @@ public class RelpHandler extends Handler {
     private RelpConnection relpConnection;
     private RelpBatch batch;
     private RelpConfig config;
+    boolean connected = false;
 
     // No arguments defaults to 'default' logger
     public RelpHandler() throws NumberFormatException, NoSuchFieldException, IOException, TimeoutException {
@@ -112,6 +113,12 @@ public class RelpHandler extends Handler {
             } catch (IllegalStateException | IOException | java.util.concurrent.TimeoutException e) {
                 System.out.println("RelpLogger.flush.commit> exception:");
                 e.printStackTrace();
+                try {
+                    this.relpConnection.tearDown();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+                this.connected = false;
             }
             // Check if everything has been sent, retry and reconnect if not.
             if (!this.batch.verifyTransactionAll()) {
@@ -135,20 +142,23 @@ public class RelpHandler extends Handler {
     }
 
     private void disconnect() throws IOException, TimeoutException {
+        if (!this.connected) {
+            return;
+        }
         this.relpConnection.disconnect();
         this.relpConnection.tearDown();
+        this.connected = false;
     }
 
     private void connect() {
-        boolean connected = false;
-        while (!connected) {
+        while (!this.connected) {
             try {
-                connected = relpConnection.connect(this.config.getAddress(), this.config.getPort());
+                this.connected = relpConnection.connect(this.config.getAddress(), this.config.getPort());
             } catch (Exception e) {
                 System.out.println("RelpHandler.connect> exception:");
                 e.printStackTrace();
             }
-            if (!connected) {
+            if (!this.connected) {
                 try {
                     Thread.sleep(this.config.getReconnectInterval());
                 } catch (InterruptedException e) {
@@ -160,6 +170,9 @@ public class RelpHandler extends Handler {
 
     @Override
     public synchronized void close() {
+        if (!this.connected) {
+            return;
+        }
         try {
             disconnect();
         } catch (IOException  | TimeoutException e) {
