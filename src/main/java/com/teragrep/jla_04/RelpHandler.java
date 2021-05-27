@@ -113,11 +113,7 @@ public class RelpHandler extends Handler {
             } catch (IllegalStateException | IOException | java.util.concurrent.TimeoutException e) {
                 System.out.println("RelpLogger.flush.commit> exception:");
                 e.printStackTrace();
-                try {
-                    this.relpConnection.tearDown();
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
+                this.relpConnection.tearDown();
                 this.connected = false;
             }
             // Check if everything has been sent, retry and reconnect if not.
