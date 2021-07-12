@@ -1,16 +1,25 @@
 # Java Util Logging RELP Handler
 [![Build Status](https://scan.coverity.com/projects/23156/badge.svg)](https://scan.coverity.com/projects/jla_04)
 
-## Supported properties
+Creates Java Util Logging appender that uses RELP to ensure no events are lost.
 
-- java.util.logging.RelpHandler.LOGGERNAME.appname
-- java.util.logging.RelpHandler.LOGGERNAME.server.address
-- java.util.logging.RelpHandler.LOGGERNAME.server.connectionTimeout
-- java.util.logging.RelpHandler.LOGGERNAME.server.port
-- java.util.logging.RelpHandler.LOGGERNAME.server.readTimeout
-- java.util.logging.RelpHandler.LOGGERNAME.server.reconnectInterval
-- java.util.logging.RelpHandler.LOGGERNAME.server.writeTimeout
-- java.util.logging.RelpHandler.LOGGERNAME.useStructuredData
+## Supported properties
+ * java.util.logging.RelpHandler.LOGGERNAME.appname
+ ** Stream application identifier. Maximum length of 48 characters, limited by RFC5424
+ * java.util.logging.RelpHandler.LOGGERNAME.server.address
+ ** Connection destination address
+ * java.util.logging.RelpHandler.LOGGERNAME.server.connectionTimeout
+ ** Time to wait before timing out connection
+ * java.util.logging.RelpHandler.LOGGERNAME.server.port
+ ** Connection destination port
+ * java.util.logging.RelpHandler.LOGGERNAME.server.readTimeout
+ ** Time to wait for destination to acknowledge sent data (low values cause duplicates)
+ * java.util.logging.RelpHandler.LOGGERNAME.server.reconnectInterval
+ ** Time to wait between re-connection attempts
+ * java.util.logging.RelpHandler.LOGGERNAME.server.writeTimeout
+ ** Time to wait for destination to accept data
+ * java.util.logging.RelpHandler.LOGGERNAME.useStructuredData
+ ** Enables structured data containing uuid and source information
 
 ## Usage
 
