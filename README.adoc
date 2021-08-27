@@ -4,6 +4,8 @@
 Creates Java Util Logging appender that uses RELP to ensure no events are lost.
 
 ## Supported properties
+ * java.util.logging.RelpHandler.LOGGERNAME.hostname
+ ** Stream hostname identifier. Maximum length of 255 characters, limited by RFC5424
  * java.util.logging.RelpHandler.LOGGERNAME.appname
  ** Stream application identifier. Maximum length of 48 characters, limited by RFC5424
  * java.util.logging.RelpHandler.LOGGERNAME.server.address
