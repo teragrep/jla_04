@@ -87,7 +87,7 @@ public class RelpHandler extends Handler {
                     .addSDParam("source", "source")
                     .addSDParam("unixtime", Long.toString(System.currentTimeMillis()));
             SDElement origin_48577 = new SDElement("origin@48577")
-                    .addSDParam("hostname", this.config.getHostname());
+                    .addSDParam("hostname", this.config.getRealHostName());
             syslog = syslog
                     .withSDElement(event_id_48577)
                     .withSDElement(origin_48577);

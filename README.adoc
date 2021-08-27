@@ -28,12 +28,14 @@ Creates Java Util Logging appender that uses RELP to ensure no events are lost.
 System.setProperty("java.util.logging.RelpHandler.default.server.address", "127.0.0.1");
 System.setProperty("java.util.logging.RelpHandler.default.server.port", "1667");
 System.setProperty("java.util.logging.RelpHandler.default.appname", "Default");
+System.setProperty("java.util.logging.RelpHandler.default.hostname", "localhost.localdomain");
 RelpHandler relpHandler_default = new RelpHandler();
 
 // Other logger
 System.setProperty("java.util.logging.RelpHandler.custom.server.address", "127.0.0.1");
 System.setProperty("java.util.logging.RelpHandler.custom.server.port", "1668");
 System.setProperty("java.util.logging.RelpHandler.custom.appname", "CustomLogger");
+System.setProperty("java.util.logging.RelpHandler.custom.hostname", "customhost.localdomain");
 RelpHandler relpHandler_custom = new RelpHandler("custom");
 
 // Reset logger and add handlers to it

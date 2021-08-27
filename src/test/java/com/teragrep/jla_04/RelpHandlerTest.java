@@ -34,11 +34,13 @@ public class RelpHandlerTest {
             System.setProperty("java.util.logging.RelpHandler.custom.server.address", "127.0.0.1");
             System.setProperty("java.util.logging.RelpHandler.custom.server.port", "1666");
             System.setProperty("java.util.logging.RelpHandler.custom.appname", "custom");
+            System.setProperty("java.util.logging.RelpHandler.custom.hostname", "customhost");
 
             // Default logger name
             System.setProperty("java.util.logging.RelpHandler.default.server.address", "127.0.0.1");
             System.setProperty("java.util.logging.RelpHandler.default.server.port", "1667");
             System.setProperty("java.util.logging.RelpHandler.default.appname", "Default");
+            System.setProperty("java.util.logging.RelpHandler.default.hostname", "localhost");
 
             // Create handlers
             RelpHandler relpHandler_custom = new RelpHandler("custom");
@@ -65,6 +67,7 @@ public class RelpHandlerTest {
             System.setProperty("java.util.logging.RelpHandler.withsd.server.address", "127.0.0.1");
             System.setProperty("java.util.logging.RelpHandler.withsd.server.port", "1666");
             System.setProperty("java.util.logging.RelpHandler.withsd.appname", "withsd");
+            System.setProperty("java.util.logging.RelpHandler.withsd.hostname", "sdhost");
             System.setProperty("java.util.logging.RelpHandler.withsd.useStructuredData", "true");
 
             // Create handlers

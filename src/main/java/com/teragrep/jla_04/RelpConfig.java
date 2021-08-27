@@ -25,6 +25,7 @@ public class RelpConfig {
     private String address; // Relp server address
     private String appname; // appname for syslog message
     private String hostname; // hostname for syslog message
+    private String realHostName; // hostname for syslog origin header
     private String name; // logger name
     private Boolean useSD; // if structured data should be used
     private int connectionTimeout; // Relp connection timeout
@@ -39,6 +40,7 @@ public class RelpConfig {
         initPort();
         initAddress();
         initAppname();
+        initRealHostName();
         initHostName();
         initReconnectInterval();
         initUseSD();
@@ -105,12 +107,22 @@ public class RelpConfig {
         return this.appname;
     }
 
-    private void initHostName() {
+
+
+    private void initRealHostName() {
         try {
-            this.hostname = InetAddress.getLocalHost().getHostName();
+            this.realHostName = InetAddress.getLocalHost().getHostName();
         } catch (UnknownHostException e) {
-            this.hostname = "localhost";
+            this.realHostName = "localhost";
         }
+    }
+
+    public String getRealHostName() {
+        return this.realHostName;
+    }
+
+    private void initHostName() {
+        this.hostname = getProperty("hostname", "localhost");
     }
 
     public String getHostname() {
