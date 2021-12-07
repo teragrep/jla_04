@@ -65,8 +65,12 @@ public class RelpHandler extends Handler {
 
     private void initFormatter(String name) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         String formatter_value = System.getProperty("java.util.logging.RelpHandler." + name + ".formatter");
-        if (formatter_value != null) {
-            Object formatter_object = ClassLoader.getSystemClassLoader().loadClass(formatter_value).newInstance();
+        ClassLoader classloader = ClassLoader.getSystemClassLoader();
+        if(classloader == null) {
+            System.out.println("Unable to initialize ClassLoader.getSystemClassLoader(), defaulting to SimpleFormatter");
+        }
+        if (classloader != null && formatter_value != null) {
+            Object formatter_object = classloader.loadClass(formatter_value).newInstance();
             this.formatter = (Formatter) formatter_object;
         }
         else {
