@@ -144,4 +144,17 @@ public class InputVerificationTest {
             testHandler(new RelpHandler("intervalinvalid"), true,"Invalid interval");
         });
     }
+
+    //@Test
+    @DisplayName("Tests invalid formatter value")
+    public void testInvalidFormatterValue() {
+        Assertions.assertThrows(java.lang.ClassNotFoundException.class, () -> {
+            // Formatter is invalid
+            System.setProperty("java.util.logging.RelpHandler.invalidformatter.server.address", "127.0.0.1");
+            System.setProperty("java.util.logging.RelpHandler.invalidformatter.server.port", "1666");
+            System.setProperty("java.util.logging.RelpHandler.invalidformatter.appname", "invalidformatter");
+            System.setProperty("java.util.logging.RelpHandler.invalidformatter.formatter", "java.util.class.doesnt.exist");
+            testHandler(new RelpHandler("invalidformatter"), true,"Invalid Formatter");
+        });
+    }
 }

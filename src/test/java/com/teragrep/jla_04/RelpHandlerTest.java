@@ -17,9 +17,8 @@
 
 package com.teragrep.jla_04;
 
-import java.util.logging.Level;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
+import java.util.Date;
+import java.util.logging.*;
 
 import org.junit.jupiter.api.*;
 
@@ -80,6 +79,139 @@ public class RelpHandlerTest {
             // Set level and send messages
             logger.setLevel(Level.INFO);
             logger.info("With Structured Data");
+        });
+    }
+
+    //@Test
+    @DisplayName("Tests Simple formatter")
+    public void testSimpleFormatter() {
+        Assertions.assertAll(() -> {
+            // Formatter test
+            System.setProperty("java.util.logging.RelpHandler.simpleformatter.server.address", "127.0.0.1");
+            System.setProperty("java.util.logging.RelpHandler.simpleformatter.server.port", "1666");
+            System.setProperty("java.util.logging.RelpHandler.simpleformatter.appname", "formatterapp");
+            System.setProperty("java.util.logging.RelpHandler.simpleformatter.hostname", "formatterhost");
+            System.setProperty("java.util.logging.SimpleFormatter.format", "Format from props: [%4$s]: %5$s [%1$tc]%n");
+
+            // Create handlers
+            RelpHandler simpleformatter = new RelpHandler("simpleformatter");
+            simpleformatter.setFormatter(new SimpleFormatter());
+
+            // Reset default logmanager and add the handlers
+            LogManager.getLogManager().reset();
+            logger.addHandler(simpleformatter);
+
+            // Set level and send messages
+            logger.setLevel(Level.INFO);
+            logger.info("Simpleformatter test.");
+        });
+    }
+
+    //@Test
+    @DisplayName("Tests customized formatter")
+    public void testCustomFormatter() {
+        Assertions.assertAll(() -> {
+            // Formatter test
+            System.setProperty("java.util.logging.RelpHandler.formattertest.server.address", "127.0.0.1");
+            System.setProperty("java.util.logging.RelpHandler.formattertest.server.port", "1666");
+            System.setProperty("java.util.logging.RelpHandler.formattertest.appname", "formatterapp");
+            System.setProperty("java.util.logging.RelpHandler.formattertest.hostname", "formatterhost");
+
+            // Create handlers
+            RelpHandler formattertest = new RelpHandler("formattertest");
+            formattertest.setFormatter(new SimpleFormatter() {
+                private static final String format = "[%1$tF %1$tT] [%2$s] %3$s";
+                @Override
+                public synchronized String format(LogRecord logrecord) {
+                    return String.format(format,
+                            new Date(logrecord.getMillis()),
+                            logrecord.getLevel().getLocalizedName(),
+                            logrecord.getMessage()
+                    );
+                }
+            });
+
+            // Reset default logmanager and add the handlers
+            LogManager.getLogManager().reset();
+            logger.addHandler(formattertest);
+
+            // Set level and send messages
+            logger.setLevel(Level.INFO);
+            logger.info("Simple programmatically set SimpleFormatter test.");
+        });
+    }
+
+    //@Test
+    @DisplayName("Tests setting formatter programmatically")
+    public void testSetFormatterProgrammatic() {
+        Assertions.assertAll(() -> {
+            // Formatter test
+            System.setProperty("java.util.logging.RelpHandler.xmlformatter.server.address", "127.0.0.1");
+            System.setProperty("java.util.logging.RelpHandler.xmlformatter.server.port", "1666");
+            System.setProperty("java.util.logging.RelpHandler.xmlformatter.appname", "formatterapp");
+            System.setProperty("java.util.logging.RelpHandler.xmlformatter.hostname", "formatterhost");
+
+            // Create handlers
+            RelpHandler xmlformatter = new RelpHandler("xmlformatter");
+            xmlformatter.setFormatter(new XMLFormatter());
+
+            // Reset default logmanager and add the handlers
+            LogManager.getLogManager().reset();
+            logger.addHandler(xmlformatter);
+
+            // Set level and send messages
+            logger.setLevel(Level.INFO);
+            logger.info("XML formatter test.");
+        });
+    }
+
+    //@Test
+    @DisplayName("Tests setting xml formatter via properties")
+    public void testSetFormatterFromProperties() {
+        Assertions.assertAll(() -> {
+            // Formatter test
+            System.setProperty("java.util.logging.RelpHandler.xmlformatterprops.server.address", "127.0.0.1");
+            System.setProperty("java.util.logging.RelpHandler.xmlformatterprops.server.port", "1666");
+            System.setProperty("java.util.logging.RelpHandler.xmlformatterprops.appname", "formatterapp");
+            System.setProperty("java.util.logging.RelpHandler.xmlformatterprops.hostname", "formatterhost");
+            System.setProperty("java.util.logging.RelpHandler.xmlformatterprops.formatter", "java.util.logging.XMLFormatter");
+
+            // Create handlers
+            RelpHandler xmlformatterprops = new RelpHandler("xmlformatterprops");
+
+            // Reset default logmanager and add the handlers
+            LogManager.getLogManager().reset();
+            logger.addHandler(xmlformatterprops);
+
+            // Set level and send messages
+            logger.setLevel(Level.INFO);
+            logger.info("XML formatter via properties test.");
+        });
+    }
+
+
+    //@Test
+    @DisplayName("Tests setting formatter format via properties")
+    public void testSetFormatterFormatFromProperties() {
+        Assertions.assertAll(() -> {
+            // Formatter test
+            System.setProperty("java.util.logging.RelpHandler.simpleformatterformat.server.address", "127.0.0.1");
+            System.setProperty("java.util.logging.RelpHandler.simpleformatterformat.server.port", "1666");
+            System.setProperty("java.util.logging.RelpHandler.simpleformatterformat.appname", "formatterapp");
+            System.setProperty("java.util.logging.RelpHandler.simpleformatterformat.hostname", "formatterhost");
+            System.setProperty("java.util.logging.RelpHandler.simpleformatterformat.formatter", "java.util.logging.SimpleFormatter");
+            System.setProperty("java.util.logging.SimpleFormatter.format", "Secrets: [%4$s]: %5$s [%1$tc]%n");
+
+            // Create handlers
+            RelpHandler simpleformatterformat = new RelpHandler("simpleformatterformat");
+
+            // Reset default logmanager and add the handlers
+            LogManager.getLogManager().reset();
+            logger.addHandler(simpleformatterformat);
+
+            // Set level and send messages
+            logger.setLevel(Level.INFO);
+            logger.info("Simple formatter format via properties test.");
         });
     }
 }

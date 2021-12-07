@@ -29,31 +29,31 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.TimeoutException;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
-
+import java.util.logging.*;
 
 public class RelpHandler extends Handler {
     private RelpConnection relpConnection;
     private RelpBatch batch;
     private RelpConfig config;
     boolean connected = false;
+    Formatter formatter;
 
     // No arguments defaults to 'default' logger
-    public RelpHandler() throws NumberFormatException, NoSuchFieldException, IOException, TimeoutException {
+    public RelpHandler() throws NumberFormatException, NoSuchFieldException, IOException, TimeoutException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         super();
         initialize("default");
     }
 
     // Otherwise use what user provided
-    public RelpHandler(String name) throws NumberFormatException, NoSuchFieldException, IOException, TimeoutException {
+    public RelpHandler(String name) throws NumberFormatException, NoSuchFieldException, IOException, TimeoutException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         super();
         initialize(name);
     }
 
-    private void initialize(String name) throws NoSuchFieldException, IOException, TimeoutException {
+    private void initialize(String name) throws NoSuchFieldException, IOException, TimeoutException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         // All relevant onetime-setup configurations and their validations are in RelpConfig
         this.config = new RelpConfig(name);
+        initFormatter(name);
 
         // Connect
         this.relpConnection = new RelpConnection();
@@ -61,6 +61,27 @@ public class RelpHandler extends Handler {
         this.relpConnection.setReadTimeout(this.config.getReadTimeout());
         this.relpConnection.setWriteTimeout(this.config.getWriteTimeout());
         connect();
+    }
+
+    private void initFormatter(String name) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+        String formatter_value = System.getProperty("java.util.logging.RelpHandler." + name + ".formatter");
+        if (formatter_value != null) {
+            Object formatter_object = ClassLoader.getSystemClassLoader().loadClass(formatter_value).newInstance();
+            this.formatter = (Formatter) formatter_object;
+        }
+        else {
+            this.formatter = new SimpleFormatter() {
+                @Override
+                public synchronized String format(LogRecord logrecord) {
+                    return String.format("%1$s", logrecord.getMessage());
+                }
+            };
+        }
+    }
+
+    @Override
+    public synchronized void setFormatter(Formatter formatter) {
+        this.formatter = formatter;
     }
 
     @Override
@@ -77,7 +98,7 @@ public class RelpHandler extends Handler {
                 .withAppName(this.config.getAppname())
                 .withHostname(this.config.getHostname())
                 .withFacility(Facility.USER)
-                .withMsg(logRecord.getMessage());
+                .withMsg(this.formatter.format(logRecord));
 
         // Add SD if enabled
         if(this.config.getUseSD()) {
@@ -102,6 +123,7 @@ public class RelpHandler extends Handler {
         this.batch.insert(syslog.toRfc5424SyslogMessage().getBytes(StandardCharsets.UTF_8));
         flush();
     }
+
 
     @Override
     public synchronized void flush() {
