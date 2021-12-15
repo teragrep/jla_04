@@ -17,8 +17,16 @@
 
 package com.teragrep.jla_04;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.logging.Formatter;
+import java.util.logging.LogManager;
+import java.util.logging.LogRecord;
+import java.util.logging.SimpleFormatter;
 
 public class RelpConfig {
     private int port; // Relp server port
@@ -32,11 +40,15 @@ public class RelpConfig {
     private int reconnectInterval; // sleep between relp connection reconnects
     private int readTimeout; // relp connection reading timeout
     private int writeTimeout; // relp connection writing timeout
+    private LogManager manager;
+    private Formatter formatter;
 
-    public RelpConfig(String name) throws NumberFormatException, IllegalArgumentException, NoSuchFieldException {
+    public RelpConfig(String name) throws NumberFormatException, IllegalArgumentException, NoSuchFieldException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+        initLogger();
         // Name must be set first, others do not depend on the ordering
         initName(name);
         // The rest
+        initFormatter();
         initPort();
         initAddress();
         initAppname();
@@ -49,15 +61,71 @@ public class RelpConfig {
         initWriteTimeout();
     }
 
+    private void initLogger() {
+        this.manager = LogManager.getLogManager();
+        String configpath = System.getProperty("java.util.logging.config.file");
+        if(configpath != null) {
+            File configfile = new File(configpath);
+            if(!configfile.exists() || !configfile.isFile()) {
+                System.out.println("Can't find properties file at " + configpath);
+                return;
+            }
+            FileInputStream inputStream = null;
+            try {
+                inputStream = new FileInputStream(configpath);
+                LogManager.getLogManager().readConfiguration(inputStream);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void initFormatter() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+        // Get normal prop and fallback to manager prop; from that fallback to simple formatter
+        String formatter_name = System.getProperty("java.util.logging.RelpHandler." + this.getName() + ".formatter", this.manager.getProperty("java.util.logging.RelpHandler." + this.getName() + ".formatter"));
+        if(formatter_name != null) {
+            ClassLoader classloader = ClassLoader.getSystemClassLoader();
+            if (classloader == null) {
+                System.out.println("Unable to initialize ClassLoader.getSystemClassLoader(), defaulting to SimpleFormatter");
+            }
+            if (classloader != null) {
+                Object formatter_object = classloader.loadClass(formatter_name).newInstance();
+                this.formatter = (Formatter) formatter_object;
+            }
+        }
+        else {
+            this.formatter = new SimpleFormatter() {
+                @Override
+                public synchronized String format(LogRecord logrecord) {
+                    return String.format("%1$s", logrecord.getMessage());
+                }
+            };
+        }
+    }
+
+    public Formatter getFormatter() {
+        return this.formatter;
+    }
+
     private String getProperty(String name, String fallback) {
+        // Overrides from props
         String prop = System.getProperty("java.util.logging.RelpHandler." + this.getName() + "." + name);
-        if (prop == null) {
-            return fallback;
+        if (prop != null) {
+            if(prop.equals("")) {
+                throw new IllegalArgumentException("Field is set but has no value: java.util.logging.RelpHandler." + this.getName() + "." + name);
+            }
+            return prop;
         }
-        if (prop.equals("")) {
-            throw new IllegalArgumentException("Field is set but has no value: java.util.logging.RelpHandler." + this.getName() + "." + name);
+        // Check if values are set in prop file
+        String from_prop = this.manager.getProperty("java.util.logging.RelpHandler." + this.getName() + "." + name);
+        if (from_prop != null) {
+            if(from_prop.equals("")) {
+                throw new IllegalArgumentException("Field is set but has no value: java.util.logging.RelpHandler." + this.getName() + "." + name);
+            }
+            return from_prop;
         }
-        return prop;
+        // Default
+        return fallback;
     }
 
     private void initName(String name) throws NoSuchFieldException, IllegalArgumentException {

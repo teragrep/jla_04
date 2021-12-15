@@ -102,7 +102,7 @@ public class RelpHandler extends Handler {
                 .withAppName(this.config.getAppname())
                 .withHostname(this.config.getHostname())
                 .withFacility(Facility.USER)
-                .withMsg(this.formatter.format(logRecord));
+                .withMsg(this.config.getFormatter().format(logRecord));
 
         // Add SD if enabled
         if(this.config.getUseSD()) {
