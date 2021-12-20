@@ -70,11 +70,8 @@ public class RelpConfig {
                 System.out.println("Can't find properties file at " + configpath);
                 return;
             }
-            FileInputStream inputStream = null;
-            try {
-                inputStream = new FileInputStream(configpath);
+            try(FileInputStream inputStream = new FileInputStream(configpath)) {
                 LogManager.getLogManager().readConfiguration(inputStream);
-                inputStream.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }
