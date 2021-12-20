@@ -18,6 +18,7 @@
 package com.teragrep.jla_04;
 
 import java.util.Date;
+import java.util.Properties;
 import java.util.logging.*;
 
 import org.junit.jupiter.api.*;
@@ -30,6 +31,7 @@ public class RelpHandlerTest {
     public void testUsage() {
         Assertions.assertAll(() -> {
             // Custom logger name
+            Properties default_props = (Properties) System.getProperties().clone();
             System.setProperty("java.util.logging.RelpHandler.custom.server.address", "127.0.0.1");
             System.setProperty("java.util.logging.RelpHandler.custom.server.port", "1666");
             System.setProperty("java.util.logging.RelpHandler.custom.appname", "custom");
@@ -55,6 +57,8 @@ public class RelpHandlerTest {
             logger.severe("Severe message");
             logger.warning("Warning message");
             logger.info("Info message");
+            System.getProperties().clear();
+            System.setProperties(default_props);
         });
     }
 
@@ -63,6 +67,7 @@ public class RelpHandlerTest {
     public void testSD() {
         Assertions.assertAll(() -> {
             // We want to use structured data
+            Properties default_props = (Properties) System.getProperties().clone();
             System.setProperty("java.util.logging.RelpHandler.withsd.server.address", "127.0.0.1");
             System.setProperty("java.util.logging.RelpHandler.withsd.server.port", "1666");
             System.setProperty("java.util.logging.RelpHandler.withsd.appname", "withsd");
@@ -79,6 +84,8 @@ public class RelpHandlerTest {
             // Set level and send messages
             logger.setLevel(Level.INFO);
             logger.info("With Structured Data");
+            System.getProperties().clear();
+            System.setProperties(default_props);
         });
     }
 
@@ -87,6 +94,7 @@ public class RelpHandlerTest {
     public void testSimpleFormatter() {
         Assertions.assertAll(() -> {
             // Formatter test
+            Properties default_props = (Properties) System.getProperties().clone();
             System.setProperty("java.util.logging.RelpHandler.simpleformatter.server.address", "127.0.0.1");
             System.setProperty("java.util.logging.RelpHandler.simpleformatter.server.port", "1666");
             System.setProperty("java.util.logging.RelpHandler.simpleformatter.appname", "formatterapp");
@@ -104,6 +112,8 @@ public class RelpHandlerTest {
             // Set level and send messages
             logger.setLevel(Level.INFO);
             logger.info("Simpleformatter test.");
+            System.getProperties().clear();
+            System.setProperties(default_props);
         });
     }
 
@@ -112,6 +122,7 @@ public class RelpHandlerTest {
     public void testCustomFormatter() {
         Assertions.assertAll(() -> {
             // Formatter test
+            Properties default_props = (Properties) System.getProperties().clone();
             System.setProperty("java.util.logging.RelpHandler.formattertest.server.address", "127.0.0.1");
             System.setProperty("java.util.logging.RelpHandler.formattertest.server.port", "1666");
             System.setProperty("java.util.logging.RelpHandler.formattertest.appname", "formatterapp");
@@ -138,6 +149,8 @@ public class RelpHandlerTest {
             // Set level and send messages
             logger.setLevel(Level.INFO);
             logger.info("Simple programmatically set SimpleFormatter test.");
+            System.getProperties().clear();
+            System.setProperties(default_props);
         });
     }
 
@@ -146,6 +159,7 @@ public class RelpHandlerTest {
     public void testSetFormatterProgrammatic() {
         Assertions.assertAll(() -> {
             // Formatter test
+            Properties default_props = (Properties) System.getProperties().clone();
             System.setProperty("java.util.logging.RelpHandler.xmlformatter.server.address", "127.0.0.1");
             System.setProperty("java.util.logging.RelpHandler.xmlformatter.server.port", "1666");
             System.setProperty("java.util.logging.RelpHandler.xmlformatter.appname", "formatterapp");
@@ -162,6 +176,8 @@ public class RelpHandlerTest {
             // Set level and send messages
             logger.setLevel(Level.INFO);
             logger.info("XML formatter test.");
+            System.getProperties().clear();
+            System.setProperties(default_props);
         });
     }
 
@@ -170,6 +186,7 @@ public class RelpHandlerTest {
     public void testSetFormatterFromProperties() {
         Assertions.assertAll(() -> {
             // Formatter test
+            Properties default_props = (Properties) System.getProperties().clone();
             System.setProperty("java.util.logging.RelpHandler.xmlformatterprops.server.address", "127.0.0.1");
             System.setProperty("java.util.logging.RelpHandler.xmlformatterprops.server.port", "1666");
             System.setProperty("java.util.logging.RelpHandler.xmlformatterprops.appname", "formatterapp");
@@ -186,6 +203,8 @@ public class RelpHandlerTest {
             // Set level and send messages
             logger.setLevel(Level.INFO);
             logger.info("XML formatter via properties test.");
+            System.getProperties().clear();
+            System.setProperties(default_props);
         });
     }
 
@@ -195,6 +214,7 @@ public class RelpHandlerTest {
     public void testSetFormatterFormatFromProperties() {
         Assertions.assertAll(() -> {
             // Formatter test
+            Properties default_props = (Properties) System.getProperties().clone();
             System.setProperty("java.util.logging.RelpHandler.simpleformatterformat.server.address", "127.0.0.1");
             System.setProperty("java.util.logging.RelpHandler.simpleformatterformat.server.port", "1666");
             System.setProperty("java.util.logging.RelpHandler.simpleformatterformat.appname", "formatterapp");
@@ -212,6 +232,8 @@ public class RelpHandlerTest {
             // Set level and send messages
             logger.setLevel(Level.INFO);
             logger.info("Simple formatter format via properties test.");
+            System.getProperties().clear();
+            System.setProperties(default_props);
         });
     }
 }

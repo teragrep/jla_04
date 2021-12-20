@@ -74,6 +74,7 @@ public class RelpConfig {
             try {
                 inputStream = new FileInputStream(configpath);
                 LogManager.getLogManager().readConfiguration(inputStream);
+                inputStream.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -83,15 +84,10 @@ public class RelpConfig {
     private void initFormatter() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         // Get normal prop and fallback to manager prop; from that fallback to simple formatter
         String formatter_name = System.getProperty("java.util.logging.RelpHandler." + this.getName() + ".formatter", this.manager.getProperty("java.util.logging.RelpHandler." + this.getName() + ".formatter"));
-        if(formatter_name != null) {
-            ClassLoader classloader = ClassLoader.getSystemClassLoader();
-            if (classloader == null) {
-                System.out.println("Unable to initialize ClassLoader.getSystemClassLoader(), defaulting to SimpleFormatter");
-            }
-            if (classloader != null) {
-                Object formatter_object = classloader.loadClass(formatter_name).newInstance();
-                this.formatter = (Formatter) formatter_object;
-            }
+        ClassLoader classloader = ClassLoader.getSystemClassLoader();
+        if (classloader != null && formatter_name != null) {
+            Object formatter_object = classloader.loadClass(formatter_name).newInstance();
+            this.formatter = (Formatter) formatter_object;
         }
         else {
             this.formatter = new SimpleFormatter() {

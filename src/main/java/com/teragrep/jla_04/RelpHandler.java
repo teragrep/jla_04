@@ -36,7 +36,6 @@ public class RelpHandler extends Handler {
     private RelpBatch batch;
     private RelpConfig config;
     boolean connected = false;
-    Formatter formatter;
 
     // No arguments defaults to 'default' logger
     public RelpHandler() throws NumberFormatException, NoSuchFieldException, IOException, TimeoutException, ClassNotFoundException, InstantiationException, IllegalAccessException {
@@ -53,7 +52,6 @@ public class RelpHandler extends Handler {
     private void initialize(String name) throws NoSuchFieldException, IOException, TimeoutException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         // All relevant onetime-setup configurations and their validations are in RelpConfig
         this.config = new RelpConfig(name);
-        initFormatter(name);
 
         // Connect
         this.relpConnection = new RelpConnection();
@@ -61,31 +59,6 @@ public class RelpHandler extends Handler {
         this.relpConnection.setReadTimeout(this.config.getReadTimeout());
         this.relpConnection.setWriteTimeout(this.config.getWriteTimeout());
         connect();
-    }
-
-    private void initFormatter(String name) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-        String formatter_value = System.getProperty("java.util.logging.RelpHandler." + name + ".formatter");
-        ClassLoader classloader = ClassLoader.getSystemClassLoader();
-        if(classloader == null) {
-            System.out.println("Unable to initialize ClassLoader.getSystemClassLoader(), defaulting to SimpleFormatter");
-        }
-        if (classloader != null && formatter_value != null) {
-            Object formatter_object = classloader.loadClass(formatter_value).newInstance();
-            this.formatter = (Formatter) formatter_object;
-        }
-        else {
-            this.formatter = new SimpleFormatter() {
-                @Override
-                public synchronized String format(LogRecord logrecord) {
-                    return String.format("%1$s", logrecord.getMessage());
-                }
-            };
-        }
-    }
-
-    @Override
-    public synchronized void setFormatter(Formatter formatter) {
-        this.formatter = formatter;
     }
 
     @Override

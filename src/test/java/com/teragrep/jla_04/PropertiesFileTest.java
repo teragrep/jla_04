@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.Properties;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -31,11 +32,14 @@ public class PropertiesFileTest {
     @DisplayName("Tests reading properties file")
     public void testReadPropertiesFile() {
         Assertions.assertDoesNotThrow(() -> {
+            Properties default_props = (Properties) System.getProperties().clone();
             System.setProperty("java.util.logging.config.file", System.getProperty("user.dir") + "/src/test/java/com/teragrep/jla_04//logging.properties");
             RelpHandler handler = new RelpHandler("fromprops");
             LogManager.getLogManager().reset();
             logger.addHandler(handler);
             logger.info("I am from properties file");
+            System.getProperties().clear();
+            System.setProperties(default_props);
         });
 
     }
@@ -44,12 +48,15 @@ public class PropertiesFileTest {
     @DisplayName("Tests reading properties file and overriding values")
     public void testOverridePropertiesFile() {
         Assertions.assertDoesNotThrow(() -> {
+            Properties default_props = (Properties) System.getProperties().clone();
             System.setProperty("java.util.logging.config.file", System.getProperty("user.dir") + "/src/test/java/com/teragrep/jla_04//logging.properties");
             System.setProperty("java.util.logging.RelpHandler.fromprops-override.hostname", "fromprops-hostname-overridden");
             RelpHandler handler = new RelpHandler("fromprops-override");
             LogManager.getLogManager().reset();
             logger.addHandler(handler);
             logger.info("I am from properties file but overridden");
+            System.getProperties().clear();
+            System.setProperties(default_props);
         });
     }
 
@@ -57,11 +64,14 @@ public class PropertiesFileTest {
     @DisplayName("Tests reading properties file and getting formatter")
     public void testGettingFormatter() {
         Assertions.assertDoesNotThrow(() -> {
+            Properties default_props = (Properties) System.getProperties().clone();
             System.setProperty("java.util.logging.config.file", System.getProperty("user.dir") + "/src/test/java/com/teragrep/jla_04//logging.properties");
             RelpHandler handler = new RelpHandler("fromprops-formatter");
             LogManager.getLogManager().reset();
             logger.addHandler(handler);
             logger.info("My formatter should be from logging.properties");
+            System.getProperties().clear();
+            System.setProperties(default_props);
         });
     }
 }

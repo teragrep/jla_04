@@ -25,6 +25,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Properties;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -34,6 +35,7 @@ public class PrebuiltTest {
     @DisplayName("Tests all from properties")
     public void testFullyFromProperties() {
         Assertions.assertDoesNotThrow(() -> {
+            Properties default_props = (Properties) System.getProperties().clone();
             LogManager.getLogManager().reset();
             InputStream inputStream = null;
             try {
@@ -47,8 +49,9 @@ public class PrebuiltTest {
             catch (IOException e) {
                 System.out.println("Can't read conf/logging.properties: " + e.getMessage());
             }
-
             logger.info("I should be from fully.properties");
+            System.getProperties().clear();
+            System.setProperties(default_props);
         });
     }
 }
