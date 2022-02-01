@@ -62,8 +62,9 @@ public class RelpConfig {
     }
 
     private void initLogger() {
+
         this.manager = LogManager.getLogManager();
-        String configpath = System.getProperty("java.util.logging.config.file");
+        String configpath = System.getProperty("jla_04.logging.config.file");
         if(configpath != null) {
             File configfile = new File(configpath);
             if(!configfile.exists() || !configfile.isFile()) {
@@ -80,7 +81,7 @@ public class RelpConfig {
 
     private void initFormatter() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         // Get normal prop and fallback to manager prop; from that fallback to simple formatter
-        String formatter_name = System.getProperty("java.util.logging.RelpHandler." + this.getName() + ".formatter", this.manager.getProperty("java.util.logging.RelpHandler." + this.getName() + ".formatter"));
+        String formatter_name = System.getProperty("jla_04.logging.RelpHandler." + this.getName() + ".formatter", this.manager.getProperty("java.util.logging.RelpHandler." + this.getName() + ".formatter"));
         ClassLoader classloader = ClassLoader.getSystemClassLoader();
         if (classloader != null && formatter_name != null) {
             Object formatter_object = classloader.loadClass(formatter_name).newInstance();

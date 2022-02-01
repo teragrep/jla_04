@@ -23,6 +23,12 @@ Creates Java Util Logging appender that uses RELP to ensure no events are lost.
  * java.util.logging.RelpHandler.LOGGERNAME.useStructuredData
  ** Enables structured data containing uuid and source information
 
+## Passing properties file
+
+```
+-Djl4_04.logging.config.file=path/to/logging.properties
+```
+
 ## Usage
 
 ```
