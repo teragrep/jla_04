@@ -3,7 +3,7 @@
 
 Creates Java Util Logging appender that uses RELP to ensure no events are lost.
 
-## Supported passed properties
+## Supported system properties
  * com.teragrep.jla_04.RelpHandler.LOGGERNAME.hostname
  ** Stream hostname identifier. Maximum length of 255 characters, limited by RFC5424
  * com.teragrep.jla_04.RelpHandler.LOGGERNAME.appname
@@ -23,7 +23,7 @@ Creates Java Util Logging appender that uses RELP to ensure no events are lost.
  * com.teragrep.jla_04.RelpHandler.LOGGERNAME.useStructuredData
  ** Enables structured data containing uuid and source information
 
-## Supported properties from properties file
+## Supported logging.properties file directives
  * java.util.logging.RelpHandler.LOGGERNAME.hostname
  ** Stream hostname identifier. Maximum length of 255 characters, limited by RFC5424
  * java.util.logging.RelpHandler.LOGGERNAME.appname
