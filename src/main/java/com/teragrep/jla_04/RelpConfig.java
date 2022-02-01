@@ -81,7 +81,7 @@ public class RelpConfig {
 
     private void initFormatter() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         // Get normal prop and fallback to manager prop; from that fallback to simple formatter
-        String formatter_name = System.getProperty("com.teragrep.jla_04.RelpHandler." + this.getName() + ".formatter", this.manager.getProperty("com.teragrep.jla_04.RelpHandler." + this.getName() + ".formatter"));
+        String formatter_name = System.getProperty("com.teragrep.jla_04.RelpHandler." + this.getName() + ".formatter", this.manager.getProperty("java.util.logging.RelpHandler." + this.getName() + ".formatter"));
         ClassLoader classloader = ClassLoader.getSystemClassLoader();
         if (classloader != null && formatter_name != null) {
             Object formatter_object = classloader.loadClass(formatter_name).newInstance();
@@ -111,10 +111,10 @@ public class RelpConfig {
             return prop;
         }
         // Check if values are set in prop file
-        String from_prop = this.manager.getProperty("com.teragrep.jla_04.RelpHandler." + this.getName() + "." + name);
+        String from_prop = this.manager.getProperty("java.util.logging.RelpHandler." + this.getName() + "." + name);
         if (from_prop != null) {
             if(from_prop.equals("")) {
-                throw new IllegalArgumentException("Field is set but has no value: com.teragrep.jla_04d.RelpHandler." + this.getName() + "." + name);
+                throw new IllegalArgumentException("Field is set but has no value: com.teragrep.jla_04.RelpHandler." + this.getName() + "." + name);
             }
             return from_prop;
         }
