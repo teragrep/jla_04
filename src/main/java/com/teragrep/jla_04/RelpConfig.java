@@ -64,7 +64,7 @@ public class RelpConfig {
     private void initLogger() {
 
         this.manager = LogManager.getLogManager();
-        String configpath = System.getProperty("jla_04.logging.config.file");
+        String configpath = System.getProperty("com.teragrep.jla_04.config.file");
         if(configpath != null) {
             File configfile = new File(configpath);
             if(!configfile.exists() || !configfile.isFile()) {
@@ -81,7 +81,7 @@ public class RelpConfig {
 
     private void initFormatter() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         // Get normal prop and fallback to manager prop; from that fallback to simple formatter
-        String formatter_name = System.getProperty("jla_04.logging.RelpHandler." + this.getName() + ".formatter", this.manager.getProperty("java.util.logging.RelpHandler." + this.getName() + ".formatter"));
+        String formatter_name = System.getProperty("com.teragrep.jla_04.RelpHandler." + this.getName() + ".formatter", this.manager.getProperty("com.teragrep.jla_04.RelpHandler." + this.getName() + ".formatter"));
         ClassLoader classloader = ClassLoader.getSystemClassLoader();
         if (classloader != null && formatter_name != null) {
             Object formatter_object = classloader.loadClass(formatter_name).newInstance();
@@ -103,18 +103,18 @@ public class RelpConfig {
 
     private String getProperty(String name, String fallback) {
         // Overrides from props
-        String prop = System.getProperty("java.util.logging.RelpHandler." + this.getName() + "." + name);
+        String prop = System.getProperty("com.teragrep.jla_04.RelpHandler." + this.getName() + "." + name);
         if (prop != null) {
             if(prop.equals("")) {
-                throw new IllegalArgumentException("Field is set but has no value: java.util.logging.RelpHandler." + this.getName() + "." + name);
+                throw new IllegalArgumentException("Field is set but has no value: com.teragrep.jla_04.RelpHandler." + this.getName() + "." + name);
             }
             return prop;
         }
         // Check if values are set in prop file
-        String from_prop = this.manager.getProperty("java.util.logging.RelpHandler." + this.getName() + "." + name);
+        String from_prop = this.manager.getProperty("com.teragrep.jla_04.RelpHandler." + this.getName() + "." + name);
         if (from_prop != null) {
             if(from_prop.equals("")) {
-                throw new IllegalArgumentException("Field is set but has no value: java.util.logging.RelpHandler." + this.getName() + "." + name);
+                throw new IllegalArgumentException("Field is set but has no value: com.teragrep.jla_04d.RelpHandler." + this.getName() + "." + name);
             }
             return from_prop;
         }

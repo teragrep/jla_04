@@ -33,7 +33,7 @@ public class PropertiesFileTest {
     public void testReadPropertiesFile() {
         Assertions.assertDoesNotThrow(() -> {
             Properties default_props = (Properties) System.getProperties().clone();
-            System.setProperty("java.util.logging.config.file", System.getProperty("user.dir") + "/src/test/java/com/teragrep/jla_04//logging.properties");
+            System.setProperty("com.teragrep.jla_04.config.file", System.getProperty("user.dir") + "/src/test/java/com/teragrep/jla_04/logging.properties");
             RelpHandler handler = new RelpHandler("fromprops");
             LogManager.getLogManager().reset();
             logger.addHandler(handler);
@@ -49,8 +49,7 @@ public class PropertiesFileTest {
     public void testOverridePropertiesFile() {
         Assertions.assertDoesNotThrow(() -> {
             Properties default_props = (Properties) System.getProperties().clone();
-            System.setProperty("java.util.logging.config.file", System.getProperty("user.dir") + "/src/test/java/com/teragrep/jla_04//logging.properties");
-            System.setProperty("java.util.logging.RelpHandler.fromprops-override.hostname", "fromprops-hostname-overridden");
+            System.setProperty("com.teragrep.jla_04.RelpHandler.fromprops-override.hostname", "fromprops-hostname-overridden");
             RelpHandler handler = new RelpHandler("fromprops-override");
             LogManager.getLogManager().reset();
             logger.addHandler(handler);
@@ -65,7 +64,7 @@ public class PropertiesFileTest {
     public void testGettingFormatter() {
         Assertions.assertDoesNotThrow(() -> {
             Properties default_props = (Properties) System.getProperties().clone();
-            System.setProperty("java.util.logging.config.file", System.getProperty("user.dir") + "/src/test/java/com/teragrep/jla_04//logging.properties");
+            System.setProperty("com.teragrep.jla_04.config.file", System.getProperty("user.dir") + "/src/test/java/com/teragrep/jla_04/logging.properties");
             RelpHandler handler = new RelpHandler("fromprops-formatter");
             LogManager.getLogManager().reset();
             logger.addHandler(handler);

@@ -32,16 +32,16 @@ public class RelpHandlerTest {
         Assertions.assertAll(() -> {
             // Custom logger name
             Properties default_props = (Properties) System.getProperties().clone();
-            System.setProperty("java.util.logging.RelpHandler.custom.server.address", "127.0.0.1");
-            System.setProperty("java.util.logging.RelpHandler.custom.server.port", "1666");
-            System.setProperty("java.util.logging.RelpHandler.custom.appname", "custom");
-            System.setProperty("java.util.logging.RelpHandler.custom.hostname", "customhost");
+            System.setProperty("com.teragrep.jla_04.RelpHandler.custom.server.address", "127.0.0.1");
+            System.setProperty("com.teragrep.jla_04.RelpHandler.custom.server.port", "1666");
+            System.setProperty("com.teragrep.jla_04.RelpHandler.custom.appname", "custom");
+            System.setProperty("com.teragrep.jla_04.RelpHandler.custom.hostname", "customhost");
 
             // Default logger name
-            System.setProperty("java.util.logging.RelpHandler.default.server.address", "127.0.0.1");
-            System.setProperty("java.util.logging.RelpHandler.default.server.port", "1667");
-            System.setProperty("java.util.logging.RelpHandler.default.appname", "Default");
-            System.setProperty("java.util.logging.RelpHandler.default.hostname", "localhost");
+            System.setProperty("com.teragrep.jla_04.RelpHandler.default.server.address", "127.0.0.1");
+            System.setProperty("com.teragrep.jla_04.RelpHandler.default.server.port", "1667");
+            System.setProperty("com.teragrep.jla_04.RelpHandler.default.appname", "Default");
+            System.setProperty("com.teragrep.jla_04.RelpHandler.default.hostname", "localhost");
 
             // Create handlers
             RelpHandler relpHandler_custom = new RelpHandler("custom");
@@ -68,11 +68,11 @@ public class RelpHandlerTest {
         Assertions.assertAll(() -> {
             // We want to use structured data
             Properties default_props = (Properties) System.getProperties().clone();
-            System.setProperty("java.util.logging.RelpHandler.withsd.server.address", "127.0.0.1");
-            System.setProperty("java.util.logging.RelpHandler.withsd.server.port", "1666");
-            System.setProperty("java.util.logging.RelpHandler.withsd.appname", "withsd");
-            System.setProperty("java.util.logging.RelpHandler.withsd.hostname", "sdhost");
-            System.setProperty("java.util.logging.RelpHandler.withsd.useStructuredData", "true");
+            System.setProperty("com.teragrep.jla_04.RelpHandler.withsd.server.address", "127.0.0.1");
+            System.setProperty("com.teragrep.jla_04.RelpHandler.withsd.server.port", "1666");
+            System.setProperty("com.teragrep.jla_04.RelpHandler.withsd.appname", "withsd");
+            System.setProperty("com.teragrep.jla_04.RelpHandler.withsd.hostname", "sdhost");
+            System.setProperty("com.teragrep.jla_04.RelpHandler.withsd.useStructuredData", "true");
 
             // Create handlers
             RelpHandler relpHandler_withsd = new RelpHandler("withsd");
@@ -95,11 +95,11 @@ public class RelpHandlerTest {
         Assertions.assertAll(() -> {
             // Formatter test
             Properties default_props = (Properties) System.getProperties().clone();
-            System.setProperty("java.util.logging.RelpHandler.simpleformatter.server.address", "127.0.0.1");
-            System.setProperty("java.util.logging.RelpHandler.simpleformatter.server.port", "1666");
-            System.setProperty("java.util.logging.RelpHandler.simpleformatter.appname", "formatterapp");
-            System.setProperty("java.util.logging.RelpHandler.simpleformatter.hostname", "formatterhost");
-            System.setProperty("java.util.logging.SimpleFormatter.format", "Format from props: [%4$s]: %5$s [%1$tc]%n");
+            System.setProperty("com.teragrep.jla_04.RelpHandler.simpleformatter.server.address", "127.0.0.1");
+            System.setProperty("com.teragrep.jla_04.RelpHandler.simpleformatter.server.port", "1666");
+            System.setProperty("com.teragrep.jla_04.RelpHandler.simpleformatter.appname", "formatterapp");
+            System.setProperty("com.teragrep.jla_04.RelpHandler.simpleformatter.hostname", "formatterhost");
+            System.setProperty("com.teragrep.jla_04.SimpleFormatter.format", "Format from props: [%4$s]: %5$s [%1$tc]%n");
 
             // Create handlers
             RelpHandler simpleformatter = new RelpHandler("simpleformatter");
@@ -123,10 +123,10 @@ public class RelpHandlerTest {
         Assertions.assertAll(() -> {
             // Formatter test
             Properties default_props = (Properties) System.getProperties().clone();
-            System.setProperty("java.util.logging.RelpHandler.formattertest.server.address", "127.0.0.1");
-            System.setProperty("java.util.logging.RelpHandler.formattertest.server.port", "1666");
-            System.setProperty("java.util.logging.RelpHandler.formattertest.appname", "formatterapp");
-            System.setProperty("java.util.logging.RelpHandler.formattertest.hostname", "formatterhost");
+            System.setProperty("com.teragrep.jla_04.RelpHandler.formattertest.server.address", "127.0.0.1");
+            System.setProperty("com.teragrep.jla_04.RelpHandler.formattertest.server.port", "1666");
+            System.setProperty("com.teragrep.jla_04.RelpHandler.formattertest.appname", "formatterapp");
+            System.setProperty("com.teragrep.jla_04.RelpHandler.formattertest.hostname", "formatterhost");
 
             // Create handlers
             RelpHandler formattertest = new RelpHandler("formattertest");
@@ -160,10 +160,10 @@ public class RelpHandlerTest {
         Assertions.assertAll(() -> {
             // Formatter test
             Properties default_props = (Properties) System.getProperties().clone();
-            System.setProperty("java.util.logging.RelpHandler.xmlformatter.server.address", "127.0.0.1");
-            System.setProperty("java.util.logging.RelpHandler.xmlformatter.server.port", "1666");
-            System.setProperty("java.util.logging.RelpHandler.xmlformatter.appname", "formatterapp");
-            System.setProperty("java.util.logging.RelpHandler.xmlformatter.hostname", "formatterhost");
+            System.setProperty("com.teragrep.jla_04.RelpHandler.xmlformatter.server.address", "127.0.0.1");
+            System.setProperty("com.teragrep.jla_04.RelpHandler.xmlformatter.server.port", "1666");
+            System.setProperty("com.teragrep.jla_04.RelpHandler.xmlformatter.appname", "formatterapp");
+            System.setProperty("com.teragrep.jla_04.RelpHandler.xmlformatter.hostname", "formatterhost");
 
             // Create handlers
             RelpHandler xmlformatter = new RelpHandler("xmlformatter");
@@ -187,11 +187,11 @@ public class RelpHandlerTest {
         Assertions.assertAll(() -> {
             // Formatter test
             Properties default_props = (Properties) System.getProperties().clone();
-            System.setProperty("java.util.logging.RelpHandler.xmlformatterprops.server.address", "127.0.0.1");
-            System.setProperty("java.util.logging.RelpHandler.xmlformatterprops.server.port", "1666");
-            System.setProperty("java.util.logging.RelpHandler.xmlformatterprops.appname", "formatterapp");
-            System.setProperty("java.util.logging.RelpHandler.xmlformatterprops.hostname", "formatterhost");
-            System.setProperty("java.util.logging.RelpHandler.xmlformatterprops.formatter", "java.util.logging.XMLFormatter");
+            System.setProperty("com.teragrep.jla_04.RelpHandler.xmlformatterprops.server.address", "127.0.0.1");
+            System.setProperty("com.teragrep.jla_04.RelpHandler.xmlformatterprops.server.port", "1666");
+            System.setProperty("com.teragrep.jla_04.RelpHandler.xmlformatterprops.appname", "formatterapp");
+            System.setProperty("com.teragrep.jla_04.RelpHandler.xmlformatterprops.hostname", "formatterhost");
+            System.setProperty("com.teragrep.jla_04.RelpHandler.xmlformatterprops.formatter", "com.teragrep.jla_04.XMLFormatter");
 
             // Create handlers
             RelpHandler xmlformatterprops = new RelpHandler("xmlformatterprops");
@@ -215,12 +215,12 @@ public class RelpHandlerTest {
         Assertions.assertAll(() -> {
             // Formatter test
             Properties default_props = (Properties) System.getProperties().clone();
-            System.setProperty("java.util.logging.RelpHandler.simpleformatterformat.server.address", "127.0.0.1");
-            System.setProperty("java.util.logging.RelpHandler.simpleformatterformat.server.port", "1666");
-            System.setProperty("java.util.logging.RelpHandler.simpleformatterformat.appname", "formatterapp");
-            System.setProperty("java.util.logging.RelpHandler.simpleformatterformat.hostname", "formatterhost");
-            System.setProperty("java.util.logging.RelpHandler.simpleformatterformat.formatter", "java.util.logging.SimpleFormatter");
-            System.setProperty("java.util.logging.SimpleFormatter.format", "Secrets: [%4$s]: %5$s [%1$tc]%n");
+            System.setProperty("com.teragrep.jla_04.RelpHandler.simpleformatterformat.server.address", "127.0.0.1");
+            System.setProperty("com.teragrep.jla_04.RelpHandler.simpleformatterformat.server.port", "1666");
+            System.setProperty("com.teragrep.jla_04.RelpHandler.simpleformatterformat.appname", "formatterapp");
+            System.setProperty("com.teragrep.jla_04.RelpHandler.simpleformatterformat.hostname", "formatterhost");
+            System.setProperty("com.teragrep.jla_04.RelpHandler.simpleformatterformat.formatter", "com.teragrep.jla_04.SimpleFormatter");
+            System.setProperty("com.teragrep.jla_04.SimpleFormatter.format", "Secrets: [%4$s]: %5$s [%1$tc]%n");
 
             // Create handlers
             RelpHandler simpleformatterformat = new RelpHandler("simpleformatterformat");

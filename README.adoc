@@ -4,46 +4,46 @@
 Creates Java Util Logging appender that uses RELP to ensure no events are lost.
 
 ## Supported properties
- * java.util.logging.RelpHandler.LOGGERNAME.hostname
+ * com.teragrep.jla_04.RelpHandler.LOGGERNAME.hostname
  ** Stream hostname identifier. Maximum length of 255 characters, limited by RFC5424
- * java.util.logging.RelpHandler.LOGGERNAME.appname
+ * com.teragrep.jla_04.RelpHandler.LOGGERNAME.appname
  ** Stream application identifier. Maximum length of 48 characters, limited by RFC5424
- * java.util.logging.RelpHandler.LOGGERNAME.server.address
+ * com.teragrep.jla_04.RelpHandler.LOGGERNAME.server.address
  ** Connection destination address
- * java.util.logging.RelpHandler.LOGGERNAME.server.connectionTimeout
+ * com.teragrep.jla_04.RelpHandler.LOGGERNAME.server.connectionTimeout
  ** Time to wait before timing out connection
- * java.util.logging.RelpHandler.LOGGERNAME.server.port
+ * com.teragrep.jla_04.RelpHandler.LOGGERNAME.server.port
  ** Connection destination port
- * java.util.logging.RelpHandler.LOGGERNAME.server.readTimeout
+ * com.teragrep.jla_04.RelpHandler.LOGGERNAME.server.readTimeout
  ** Time to wait for destination to acknowledge sent data (low values cause duplicates)
- * java.util.logging.RelpHandler.LOGGERNAME.server.reconnectInterval
+ * com.teragrep.jla_04.RelpHandler.LOGGERNAME.server.reconnectInterval
  ** Time to wait between re-connection attempts
- * java.util.logging.RelpHandler.LOGGERNAME.server.writeTimeout
+ * com.teragrep.jla_04.RelpHandler.LOGGERNAME.server.writeTimeout
  ** Time to wait for destination to accept data
- * java.util.logging.RelpHandler.LOGGERNAME.useStructuredData
+ * com.teragrep.jla_04.RelpHandler.LOGGERNAME.useStructuredData
  ** Enables structured data containing uuid and source information
 
 ## Passing properties file
 
 ```
--Djla_04.logging.config.file=path/to/logging.properties
+-Dcom.teragrep.jla_04.logging.config.file=path/to/logging.properties
 ```
 
 ## Usage
 
 ```
 // RelpHandler without arguments defaults LOGGERNAME to "default"
-System.setProperty("java.util.logging.RelpHandler.default.server.address", "127.0.0.1");
-System.setProperty("java.util.logging.RelpHandler.default.server.port", "1667");
-System.setProperty("java.util.logging.RelpHandler.default.appname", "Default");
-System.setProperty("java.util.logging.RelpHandler.default.hostname", "localhost.localdomain");
+System.setProperty("com.teragrep.jla_04.RelpHandler.default.server.address", "127.0.0.1");
+System.setProperty("com.teragrep.jla_04.RelpHandler.default.server.port", "1667");
+System.setProperty("com.teragrep.jla_04.RelpHandler.default.appname", "Default");
+System.setProperty("com.teragrep.jla_04.RelpHandler.default.hostname", "localhost.localdomain");
 RelpHandler relpHandler_default = new RelpHandler();
 
 // Other logger
-System.setProperty("java.util.logging.RelpHandler.custom.server.address", "127.0.0.1");
-System.setProperty("java.util.logging.RelpHandler.custom.server.port", "1668");
-System.setProperty("java.util.logging.RelpHandler.custom.appname", "CustomLogger");
-System.setProperty("java.util.logging.RelpHandler.custom.hostname", "customhost.localdomain");
+System.setProperty("com.teragrep.jla_04.RelpHandler.custom.server.address", "127.0.0.1");
+System.setProperty("com.teragrep.jla_04.RelpHandler.custom.server.port", "1668");
+System.setProperty("com.teragrep.jla_04.RelpHandler.custom.appname", "CustomLogger");
+System.setProperty("com.teragrep.jla_04.RelpHandler.custom.hostname", "customhost.localdomain");
 RelpHandler relpHandler_custom = new RelpHandler("custom");
 
 // Reset logger and add handlers to it
