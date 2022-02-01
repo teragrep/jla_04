@@ -26,7 +26,7 @@ Creates Java Util Logging appender that uses RELP to ensure no events are lost.
 ## Passing properties file
 
 ```
--Djl4_04.logging.config.file=path/to/logging.properties
+-Djla_04.logging.config.file=path/to/logging.properties
 ```
 
 ## Usage
