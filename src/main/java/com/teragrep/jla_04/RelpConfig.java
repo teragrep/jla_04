@@ -114,7 +114,7 @@ public class RelpConfig {
         String from_prop = this.manager.getProperty("java.util.logging.RelpHandler." + this.getName() + "." + name);
         if (from_prop != null) {
             if(from_prop.equals("")) {
-                throw new IllegalArgumentException("Field is set but has no value: com.teragrep.jla_04.RelpHandler." + this.getName() + "." + name);
+                throw new IllegalArgumentException("Field is set but has no value: java.util.logging.RelpHandler." + this.getName() + "." + name);
             }
             return from_prop;
         }
