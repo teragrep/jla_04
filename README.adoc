@@ -1,57 +1,118 @@
-# Java Util Logging RELP Handler
+= Java Util Logging RELP Handler
 [![Build Status](https://scan.coverity.com/projects/23156/badge.svg)](https://scan.coverity.com/projects/jla_04)
 
-Creates Java Util Logging appender that uses RELP to ensure no events are lost.
+Creates Java Util Logging handler that uses RELP to ensure no events are lost.
 
-## Supported system properties
- * com.teragrep.jla_04.RelpHandler.LOGGERNAME.hostname
- ** Stream hostname identifier. Maximum length of 255 characters, limited by RFC5424
- * com.teragrep.jla_04.RelpHandler.LOGGERNAME.appname
- ** Stream application identifier. Maximum length of 48 characters, limited by RFC5424
- * com.teragrep.jla_04.RelpHandler.LOGGERNAME.server.address
- ** Connection destination address
- * com.teragrep.jla_04.RelpHandler.LOGGERNAME.server.connectionTimeout
- ** Time to wait before timing out connection
- * com.teragrep.jla_04.RelpHandler.LOGGERNAME.server.port
- ** Connection destination port
- * com.teragrep.jla_04.RelpHandler.LOGGERNAME.server.readTimeout
- ** Time to wait for destination to acknowledge sent data (low values cause duplicates)
- * com.teragrep.jla_04.RelpHandler.LOGGERNAME.server.reconnectInterval
- ** Time to wait between re-connection attempts
- * com.teragrep.jla_04.RelpHandler.LOGGERNAME.server.writeTimeout
- ** Time to wait for destination to accept data
- * com.teragrep.jla_04.RelpHandler.LOGGERNAME.useStructuredData
- ** Enables structured data containing uuid and source information
+== Configuring pre-built Java Util Logging application
 
-## Supported logging.properties file directives
- * java.util.logging.RelpHandler.LOGGERNAME.hostname
- ** Stream hostname identifier. Maximum length of 255 characters, limited by RFC5424
- * java.util.logging.RelpHandler.LOGGERNAME.appname
- ** Stream application identifier. Maximum length of 48 characters, limited by RFC5424
- * java.util.logging.RelpHandler.LOGGERNAME.server.address
- ** Connection destination address
- * java.util.logging.RelpHandler.LOGGERNAME.server.connectionTimeout
- ** Time to wait before timing out connection
- * java.util.logging.RelpHandler.LOGGERNAME.server.port
- ** Connection destination port
- * java.util.logging.RelpHandler.LOGGERNAME.server.readTimeout
- ** Time to wait for destination to acknowledge sent data (low values cause duplicates)
- * java.util.logging.RelpHandler.LOGGERNAME.server.reconnectInterval
- ** Time to wait between re-connection attempts
- * java.util.logging.RelpHandler.LOGGERNAME.server.writeTimeout
- ** Time to wait for destination to accept data
- * java.util.logging.RelpHandler.LOGGERNAME.useStructuredData
- ** Enables structured data containing uuid and source information
+Java Util Logging supports passing a log handler without any modifications to
+the program code.
 
-## Passing properties file
+NOTE: Java Util Logging restricts one handler type from
+the logging.properties configuration so one can not have different JLA_04
+handler, for example, for INFO and DEBUG. See xref:README
+.adoc#_advanced_configuration[advanced configration] to get around
+this limitation.
 
-```
+First download wanted versions of jla_04, rlp_01 and syslog-java-client from the following urls:
+
+https://search.maven.org/artifact/com.teragrep/jla_04[jla_04]
+
+https://search.maven.org/artifact/com.teragrep/rlp_01[rlp_01]
+
+https://search.maven.org/artifact/com.cloudbees/syslog-java-client[syslog-java-client]
+
+
+Configuration file, see xref:README.adoc#Supported logging.properties file
+directives[logging.properties file directives] for explanation of the keys.
+[source,properties]
+----
+handlers=com.teragrep.jla_04.RelpHandler
+java.util.logging.RelpHandler.default.server.address=127.0.0.1
+java.util.logging.RelpHandler.default.server.port=10601
+java.util.logging.RelpHandler.default.appname=jul-logger
+java.util.logging.RelpHandler.default.hostname=host1.example.com
+java.util.logging.RelpHandler.default.formatter=java.util.logging.SimpleFormatter
+java.util.logging.SimpleFormatter.format=[%1$tc] [%4$s] %5$s
+.level = ALL
+----
+
+Then run java while pointing classpath to the directory where you downloaded
+the jars and the standard property "java.util.logging
+.config.file" to your logging.properties file.
+
+Example command-line:
+
+[source,bash]
+----
+java -cp "path/to/downloaded/jars/*:target/example.jar" -Djava.util.logging
+.config.file=logging.properties com.teragrep.example.Main
+.Main
+----
+
+== Advanced configuration
+
+JLA_04 supports programmatic creation of multiple handlers, these are not
+available for programs which are not modified to support them because of Java
+Util Logging (JUL) limitation. JUL supports only one handler of a handler
+type via external configuration file.
+
+
+=== Supported system properties
+* com.teragrep.jla_04.RelpHandler.LOGGERNAME.hostname
+** Stream hostname identifier.Maximum length of 255 characters, limited by RFC5424
+* com.teragrep.jla_04.RelpHandler.LOGGERNAME.appname
+** Stream application identifier.Maximum length of 48 characters, limited by RFC5424
+* com.teragrep.jla_04.RelpHandler.LOGGERNAME.server.address
+** Connection destination address
+* com.teragrep.jla_04.RelpHandler.LOGGERNAME.server.connectionTimeout
+** Time to wait before timing out connection
+* com.teragrep.jla_04.RelpHandler.LOGGERNAME.server.port
+** Connection destination port
+* com.teragrep.jla_04.RelpHandler.LOGGERNAME.server.readTimeout
+** Time to wait for destination to acknowledge sent data (low values cause duplicates)
+* com.teragrep.jla_04.RelpHandler.LOGGERNAME.server.reconnectInterval
+** Time to wait between re-connection attempts
+* com.teragrep.jla_04.RelpHandler.LOGGERNAME.server.writeTimeout
+** Time to wait for destination to accept data
+* com.teragrep.jla_04.RelpHandler.LOGGERNAME.useStructuredData
+** Enables structured data containing uuid and source information
+
+=== Supported logging.properties file directives
+
+Default logger has LOGGERNAME "default" which is the only one available
+without code modifications.
+
+* java.util.logging.RelpHandler.LOGGERNAME.hostname
+** Stream hostname identifier.Maximum length of 255 characters, limited by RFC5424
+* java.util.logging.RelpHandler.LOGGERNAME.appname
+** Stream application identifier.Maximum length of 48 characters, limited by RFC5424
+* java.util.logging.RelpHandler.LOGGERNAME.server.address
+** Connection destination address
+* java.util.logging.RelpHandler.LOGGERNAME.server.connectionTimeout
+** Time to wait before timing out connection
+* java.util.logging.RelpHandler.LOGGERNAME.server.port
+** Connection destination port
+* java.util.logging.RelpHandler.LOGGERNAME.server.readTimeout
+** Time to wait for destination to acknowledge sent data (low values cause duplicates)
+* java.util.logging.RelpHandler.LOGGERNAME.server.reconnectInterval
+** Time to wait between re-connection attempts
+* java.util.logging.RelpHandler.LOGGERNAME.server.writeTimeout
+** Time to wait for destination to accept data
+* java.util.logging.RelpHandler.LOGGERNAME.useStructuredData
+** Enables structured data containing uuid and source information
+
+=== Passing properties file
+
+[source,bash]
+----
 -Dcom.teragrep.jla_04.logging.config.file=path/to/logging.properties
-```
+----
 
-## Usage
+=== Code Usage
 
-```
+[source,java]
+----
 // RelpHandler without arguments defaults LOGGERNAME to "default"
 System.setProperty("com.teragrep.jla_04.RelpHandler.default.server.address", "127.0.0.1");
 System.setProperty("com.teragrep.jla_04.RelpHandler.default.server.port", "1667");
@@ -74,30 +135,15 @@ logger.addHandler(relpHandler_custom);
 // Set level and send messages
 logger.setLevel(Level.WARNING);
 logger.severe("Severe message");
-```
+----
 
-## Maven dependency definition
+=== Maven dependency definition
 
-```
+[source,xml]
+----
 <dependency>
     <groupId>com.teragrep</groupId>
     <artifactId>jla_04</artifactId>
     <version>%VERSION%</version>
 </dependency>
-```
-
-## Configuring pre-built Java Util Logging application
-
-First download wanted versions of jla_04, rlp_01 and syslog-java-client from the following urls:
-
-https://search.maven.org/artifact/com.teragrep/jla_04[jla_04]
-
-https://search.maven.org/artifact/com.teragrep/rlp_01[rlp_01]
-
-https://search.maven.org/artifact/com.cloudbees/syslog-java-client[syslog-java-client]
-
-Then run java while pointing classpath to the directory where you downloaded the jars to like:
-
-```
-java -cp "path/to/downloaded/jars/*:target/example.jar" com.teragrep.example.Main
-```
+----
